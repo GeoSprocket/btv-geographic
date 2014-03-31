@@ -2,141 +2,36 @@
 <html>
 <head>
 <meta charset=utf-8 />
-<title>Burlington Geographic Map</title>
+<title>Burlington Geographic - Maps</title>
 
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
-<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=EB+Garamond" />
-<link href='css/style.css' rel='stylesheet' />
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
+<link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" rel="stylesheet">
 
+<style>
+  
+</style>
 </head>
 <body>
 
-<div id='map'></div>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Burlington Geographic: Maps</h1>
+    <h4>Explore by theme below</h4>
+  </div>
+  <div class="row">
+    <div class="button-group col-md-6 col-md-offset-3">
+      <a type="button" href="social/" class="btn btn-large btn-info">Socioeconomic</a>
+      <a type="button" href="natural/" class="btn btn-large btn-info">Natural Resources</a>
+      <a type="button" href="physical/" class="btn btn-large btn-info">Physical Landscape</a>
+    </div>
+  </div>
+</div>
 
-<style>
-
-  label {
-    height:30px;
-    font-family: 'EB', serif;
-    font-size: 18px !important ;
-  }
-
-</style>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
-<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-hash/v0.2.1/leaflet-hash.js'></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script> 
 
-<script>
-
-  $.getJSON('geodata/btv_census_blocks_2010.topojson', function(data) {
-        // Convert the topojson to geojson
-        var blocks = topojson.feature(data, data.objects.btv_census_blocks_2010).features;
-        // Create leaflet vector layer and add it to the map
-        popup = new L.Popup({
-          autoPan: false
-        });
-        var closeTooltip;
-
-        
-        var popdens = L.geoJson(blocks, {
-          style: getStyle1,
-          onEachFeature: onEachFeature1
-        });
-
-        
-        
-        // 1 - Percent_TC
-        function getStyle1(feature) {
-          return {
-            weight: 0, opacity: 0.2, color: 'black', fillOpacity: 0.9, fillColor: getColor1(feature.properties.popdens)
-          };
-        }
-        function getColor1(d) {
-          return   d > 18128 ? '#08306B' 
-            : d > 10500 ? '#1562A9' 
-            : d > 6314 ? '#3D8DC3' 
-            : d > 4410 ? '#72B2D7' 
-            : d > 1790 ? '#AFD1E7' 
-            : '#D7E6F4';
-        }
-        function onEachFeature1(feature, layer) {
-          layer.on({
-            mouseover: mousemove1, mouseout: mouseout1
-          });
-        }
-        function mousemove1(e) {
-          var layer = e.target;
-          popup.setLatLng(e.latlng);
-          popup.setContent('<h2>' + layer.feature.properties.name + '</h2>Total Population: <b>' + layer.feature.properties.totalpop + '</b>');
-          if (!popup._map) popup.openOn(map);
-          window.clearTimeout(closeTooltip);
-            // highlight feature on mouseover
-            layer.setStyle({
-              weight: 5,
-              opacity: 0.5,
-              color: '#fff',
-              fillOpacity: 0.9
-            });
-          if (!L.Browser.ie && !L.Browser.opera) {
-              layer.bringToFront();
-            }
-        }
-        function mouseout1(e) {
-          popdens.resetStyle(e.target);
-          closeTooltip = window.setTimeout(function() {
-            map.closePopup();
-          }, 100);
-        }
-        // End 1
 
 
-//////////MAP DEF //////////////////
-        map = L.map("map", {
-            zoom: 10,
-            center: [44.475, -73.212],
-            layers: [popdens]
-        });
-
-        map.zoomControl.setPosition('bottomright');
-
-        // Larger screens get expanded layer control
-        if (document.body.clientWidth <= 767) {
-            var isCollapsed = true;
-        } else {
-            var isCollapsed = false;
-        };
-
-        var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
-
-        var hash = L.hash(map);
-
-        // ADD THE REFERENCE OVERLAY
-        var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
-        var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
-          maxZoom: 17,
-          opacity: 0.4
-        }).addTo(map);
-        topPane.appendChild(topLayer.getContainer());
-        topLayer.setZIndex(7);
-
-        var baseLayers = {
-            
-        };
-
-        var overlays = {
-          'Population Density (2010)': popdens,
-          'Elevation Contours': L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'),
-        };
-
-        var layerControl = L.control.layers(baseLayers, overlays, null,{
-            collapsed: isCollapsed
-        }).addTo(map);
-
-      });
-
-</script>
 </body>
 </html>

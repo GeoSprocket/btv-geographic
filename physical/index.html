@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Burlington Geographic - Physical Maps</title>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
+<link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+  .leaflet-top-pane {
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+
+<style>
+#map-ui {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+    background: #fff;
+}
+#layerControls {
+    padding: 10px;
+}
+</style>
+
+<div id='map-ui'>
+    <div id='layerControls' class="btn-group-vertical" ></div>
+    <div id='navigation' class="btn-group-vertical" >
+        <a class='btn btn-info btn-small' href='#' data-position='44.487, -73.226, 13'>Burlington City</a>
+        <a class='btn btn-info btn-small' href='#' data-position='44.434, -73.052, 10'>Chittenden County</a>
+    </div>
+</div>
+<div id='map'></div>
+
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script> 
+
+<script>
+var map = L.map('map').setView([44.475, -73.212], 10);
+
+var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
+
+var ui = document.getElementById('layerControls');
+
+addLayer(L.mapbox.tileLayer('vanhoesenj.VTBedrock'), 'Bedrock Geology', 1);
+addLayer(L.mapbox.tileLayer('vanhoesenj.VtSurfGeo'), 'Surficial Geology', 2);
+addLayer(L.mapbox.tileLayer('landplanner.hli55fb7'), 'Soil Types', 3);
+addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 4);
+
+function addLayer(layer, name, zIndex) {
+    layer
+        .setZIndex(zIndex);
+
+    // Create a simple layer switcher that toggles layers on
+    // and off.
+    var link = document.createElement('a');
+
+    link.href = '#';
+    link.className = 'btn btn-primary';
+    link.type = 'button';
+    link.innerHTML = name;
+
+    link.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+            this.className = 'btn btn-primary';
+        } else {
+            map.addLayer(layer);
+            this.className = 'active btn btn-primary';
+        }
+    };
+
+    ui.appendChild(link);
+}
+
+document.getElementById('navigation').onclick = function(e) {
+    var pos = e.target.getAttribute('data-position');
+    if (pos) {
+        var loc = pos.split(',');
+        map.setView(loc);
+    }
+}
+
+// ADD THE REFERENCE OVERLAY
+var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
+var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
+  maxZoom: 18
+}).addTo(map);
+topPane.appendChild(topLayer.getContainer());
+topLayer.setZIndex(7);
+</script>
+
+
+</body>
+</html>
