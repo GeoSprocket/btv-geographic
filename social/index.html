@@ -40,7 +40,7 @@
 </style>
 
 <div id='map-ui'>
-    <h2 style="padding:15px;">Physical Landscape</h2>
+    <h2 style="padding:15px;">Socioeconomic Patterns</h2>
     <div id='layerControls' class="btn-group-vertical" >
         <h4>Select a Layer:</h4>
     </div>
@@ -65,8 +65,8 @@ var ui = document.getElementById('layerControls');
 
 addLayer(L.mapbox.tileLayer('vanhoesenj.VTBedrock'), 'Bedrock Geology', 1);
 addLayer(L.mapbox.tileLayer('vanhoesenj.VtSurfGeo'), 'Surficial Geology', 2);
-addLayer(L.mapbox.tileLayer('landplanner.hli55fb7'), 'Soil Types', 3);
-addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 4);
+addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 3);
+addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv1894-5/{z}/{x}/{y}.png'), '1894 Sanborn Maps', 4);
 
 function addLayer(layer, name, zIndex) {
     layer
