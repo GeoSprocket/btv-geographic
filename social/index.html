@@ -37,10 +37,15 @@
 #locationControls {
     padding: 15px;
 }
+
+.btn {
+  margin-bottom:4px;
+  white-space: normal;
+}
 </style>
 
 <div id='map-ui'>
-    <h2 style="padding:15px;">Socioeconomic Patterns</h2>
+    <h2 style="padding:15px;">Social and Economic Patterns</h2>
     <div id='layerControls' class="btn-group-vertical" >
         <h4>Select a Layer:</h4>
     </div>
@@ -59,14 +64,138 @@
 <script>
 var map = L.map('map').setView([44.475, -73.212], 10);
 
+var popup = new L.Popup({ autoPan: false });
+
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
 
+var popdensity = L.geoJson(null,  {
+      style: getStyle,
+      onEachFeature: onEachFeature
+  });
+
+$.getJSON("../geodata/btv_census_blocks_2010.topojson", function (data) {
+    var popdensgeojson = topojson.feature(data, data.objects.btv_census_blocks_2010).features;
+    popdensity.addData(popdensgeojson);
+  });
+
+  function getStyle(feature) {
+      return {
+          weight: 0,
+          opacity: 0,
+          fillOpacity: 0.7,
+          fillColor: getColor(feature.properties.popdens)
+      };
+  }
+
+  // get color depending on population density value
+  function getColor(d) {
+      return d > 18800  ? '#08306b' :
+          d > 11400  ? '#3e4d82' :
+          d > 7570  ? '#656e9a' :
+          d > 5390   ? '#8b90b3' :
+          d > 3570   ? '#b1b4cc' :
+          d > 860   ? '#d7d9e5' :
+          '#ffffff';
+  }
+
+  function onEachFeature(feature, layer) {
+      layer.on({
+          mousemove: mousemove,
+          mouseout: mouseout
+      });
+  }
+
+  var closeTooltip;
+
+  function mousemove(e) {
+      var layer = e.target;
+
+      popup.setLatLng(e.latlng);
+      popup.setContent('<div class="marker-title">' + layer.feature.properties.name + '</div>' +
+          Math.round(layer.feature.properties.popdens) + ' people per square mile');
+
+      if (!popup._map) popup.openOn(map);
+      window.clearTimeout(closeTooltip);
+
+      // highlight feature
+      layer.setStyle({
+          weight: 3,
+          color: '#777',
+          opacity: 0.9,
+          fillOpacity: 0.5
+      });
+
+      if (!L.Browser.ie && !L.Browser.opera) {
+          layer.bringToFront();
+      }
+  }
+
+  function mouseout(e) {
+      popdensity.resetStyle(e.target);
+      closeTooltip = window.setTimeout(function() {
+          map.closePopup();
+      }, 100);
+  }
+
+  /*mapdataviz.legendControl.addLegend(getLegendHTML());
+
+  function getLegendHTML() {
+    var grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+    labels = [],
+    from, to;
+
+    for (var i = 0; i < grades.length; i++) {
+      from = grades[i];
+      to = grades[i + 1];
+
+      labels.push(
+        '<li><span class="swatch" style="background:' + getColor(from + 1) + '"></span> ' +
+        from + (to ? '&ndash;' + to : '+')) + '</li>';
+    }
+
+    return '<span>People per square mile</span><ul>' + labels.join('') + '</ul>';
+  }*/
+
+
+
+var city = L.geoJson(null, {
+  style: function (feature) {
+    return {
+      color: "#717276",
+      fill: false,
+      weight:4,
+      opacity: 1,
+      clickable: false
+    };
+  }
+});
+$.getJSON("../geodata/burlington.topojson", function (data) {
+  var citygeojson = topojson.feature(data, data.objects.burlington).features;
+  city.addData(citygeojson);
+});
+
+var county = L.geoJson(null, {
+  style: function (feature) {
+    return {
+      color: "#94969d",
+      fill: false,
+      weight:1,
+      opacity: 1,
+      clickable: false
+    };
+  }
+});
+$.getJSON("../geodata/chittenden_towns.topojson", function (data) {
+  var countygeojson = topojson.feature(data, data.objects.chittenden_towns).features;
+  county.addData(countygeojson);
+});
 var ui = document.getElementById('layerControls');
 
-addLayer(L.mapbox.tileLayer('vanhoesenj.VTBedrock'), 'Bedrock Geology', 1);
-addLayer(L.mapbox.tileLayer('vanhoesenj.VtSurfGeo'), 'Surficial Geology', 2);
-addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 3);
-addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv1894-5/{z}/{x}/{y}.png'), '1894 Sanborn Maps', 4);
+addLayer(city, 'City Boundary', 1);
+addLayer(county, 'Chittenden County Towns', 2);
+addLayer(popdensity, 'Population Density 2010', 3);
+addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 6);
+//addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv1894-5/{z}/{x}/{y}.png'), 'Selected 1894 Sanborn Maps', 4);
 
 function addLayer(layer, name, zIndex) {
     layer
