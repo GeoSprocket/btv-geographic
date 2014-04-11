@@ -3,7 +3,7 @@ var map = L.map('map').setView([44.487, -73.226], 13);
 //var popup = new L.Popup({ autoPan: false });
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
 
-// POPULATION DENSITY LAYER
+// CENSUS LAYERS
 
 // control that shows state info on hover
 var info = L.control({position: 'bottomleft'});
@@ -120,7 +120,7 @@ $.getJSON("../geodata/btv_census_blocks_2010.topojson", function(data) {
   housing.addData(censusgeojson);
 });
 
-// END POPULATION DENSITY LAYER
+// END CENSUS LAYERS
 
 
 // CITY BOUNDARY LAYER
