@@ -42,6 +42,20 @@
   margin-bottom:4px;
   white-space: normal;
 }
+
+.info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+
 </style>
 
 <div id='map-ui'>
@@ -63,9 +77,9 @@
 <script src="http://d3js.org/topojson.v1.min.js"></script> 
 
 <script>
-var map = L.map('map').setView([44.475, -73.212], 10);
+var map = L.map('map').setView([44.487, -73.226], 13);
 
-var popup = new L.Popup({ autoPan: false });
+//var popup = new L.Popup({ autoPan: false });
 
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
 
@@ -78,6 +92,21 @@ $.getJSON("../geodata/btv_census_blocks_2010.topojson", function (data) {
     var popdensgeojson = topojson.feature(data, data.objects.btv_census_blocks_2010).features;
     popdensity.addData(popdensgeojson);
   });
+
+  var info = L.control();
+
+    info.onAdd = function (map) {
+      this._div = L.DomUtil.create('div', 'info');
+      this.update();
+      return this._div;
+    };
+
+    info.update = function (props) {
+      this._div.innerHTML = '<div class="marker-title">Hey now</div'/* + props.name + '</div>' +
+          Math.round(layer.feature.properties.popdens) + ' people per square mile'*/;
+    };
+
+    info.addTo(map);
 
   function getStyle(feature) {
       return {
@@ -99,65 +128,36 @@ $.getJSON("../geodata/btv_census_blocks_2010.topojson", function (data) {
           '#ffffff';
   }
 
-  function onEachFeature(feature, layer) {
-      layer.on({
-          mousemove: mousemove,
-          mouseout: mouseout
-      });
-  }
-
-  var closeTooltip;
-
-  function mousemove(e) {
+function highlightFeature(e) {
       var layer = e.target;
 
-      popup.setLatLng(e.latlng);
-      popup.setContent('<div class="marker-title">' + layer.feature.properties.name + '</div>' +
-          Math.round(layer.feature.properties.popdens) + ' people per square mile');
-
-      if (!popup._map) popup.openOn(map);
-      window.clearTimeout(closeTooltip);
-
-      // highlight feature
       layer.setStyle({
-          weight: 3,
-          color: '#777',
-          opacity: 0.9,
-          fillOpacity: 0.5
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
       });
 
       if (!L.Browser.ie && !L.Browser.opera) {
-          layer.bringToFront();
+        layer.bringToFront();
       }
-  }
-
-  function mouseout(e) {
-      popdensity.resetStyle(e.target);
-      closeTooltip = window.setTimeout(function() {
-          map.closePopup();
-      }, 100);
-  }
-
-  /*mapdataviz.legendControl.addLegend(getLegendHTML());
-
-  function getLegendHTML() {
-    var grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-    labels = [],
-    from, to;
-
-    for (var i = 0; i < grades.length; i++) {
-      from = grades[i];
-      to = grades[i + 1];
-
-      labels.push(
-        '<li><span class="swatch" style="background:' + getColor(from + 1) + '"></span> ' +
-        from + (to ? '&ndash;' + to : '+')) + '</li>';
+      console.log('time to sleep')
+      info.update(layer.feature.properties);
     }
 
-    return '<span>People per square mile</span><ul>' + labels.join('') + '</ul>';
-  }*/
+    //var geojson;
 
+    function resetHighlight(e) {
+      popdensity.resetStyle(e.target);
+      info.update();
+    }
 
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight
+      });
+    }
 
 var city = L.geoJson(null, {
   style: function (feature) {
