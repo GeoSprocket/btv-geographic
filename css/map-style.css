@@ -25,11 +25,9 @@ body {
   background: rgba(255,255,255,0.6);
 }
 
-#layerControls {
-  padding: 15px;
-}
-
-#locationControls {
+#locationControls, 
+#layerControls,
+#baseControls {
   padding: 15px;
 }
 

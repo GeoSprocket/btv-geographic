@@ -15,7 +15,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-  this._div.innerHTML = (props ? '<h2>' + props.name + '</h2><p>Population Density: <b>' + Math.round(props.popdens) + '</b><br># of Households: <b>' + props.housing + '</b></p>' : '' );
+  this._div.innerHTML = (props ? '<h2>' + props.name + '</h2><p>Population Density: <b>' + parseInt(Math.round(props.popdens)).toLocaleString() + ' people/sqm</b><br># of Households: <b>' + props.housing + '</b></p>' : '' );
 };
 
 info.addTo(map);
@@ -189,6 +189,14 @@ function addLayer(layer, name, zIndex) {
   ui.appendChild(link);
 };
 
+// ADD THE REFERENCE OVERLAY
+var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
+  maxZoom: 18
+}).addTo(map);
+topPane.appendChild(topLayer.getContainer());
+topLayer.setZIndex(7);
+
 // SET LOCATION BOOKMARKS
 document.getElementById('burlington').onclick = function() {
   map.setView({
@@ -204,10 +212,25 @@ document.getElementById('chittenden').onclick = function() {
   }, 10);
   return false;
 };
-// ADD THE REFERENCE OVERLAY
-var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
-  maxZoom: 18
-}).addTo(map);
-topPane.appendChild(topLayer.getContainer());
-topLayer.setZIndex(7);
+
+//SWITCH BASEMAPS
+document.getElementById('streets').onclick = function() {
+  map.removeLayer(baseLayer);
+  map.removeLayer(topLayer);
+  baseLayer = L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
+  topLayer = L.mapbox.tileLayer('landplanner.hl60jemk', {
+    maxZoom: 18
+  }).addTo(map);
+  topPane.appendChild(topLayer.getContainer());
+  topLayer.setZIndex(7);
+};
+document.getElementById('satellite').onclick = function() {
+  map.removeLayer(baseLayer);
+  map.removeLayer(topLayer);
+  baseLayer = L.mapbox.tileLayer('landplanner.h1dknok1').addTo(map);
+  topLayer = L.mapbox.tileLayer('landplanner.map-6ycmi90w', {
+    maxZoom: 18
+  }).addTo(map);
+  topPane.appendChild(topLayer.getContainer());
+  topLayer.setZIndex(7);
+};
