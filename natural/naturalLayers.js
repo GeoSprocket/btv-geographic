@@ -14,7 +14,7 @@ info.onAdd = function (map) {
 
 // Reusable as long as everything has a "name" field
 info.update = function (props) {
-  this._div.innerHTML = (props ? '<h1 style="font-size:1.6em">' + props.name + '</h1>' : '' );
+  this._div.innerHTML = (props ? '<h1 style="font-size:1.2em">' + props.name + '</h1>' : '' );
 };
 
 info.addTo(map);
@@ -35,8 +35,9 @@ function highlightFeature(e) {
   info.update(layer.feature.properties);
 }
 
-// WHat happens on mouseout
-function resetHighlight(e) {
+// Formerly Reusable functions here:
+// What happens on mouseout
+/*function resetHighlight(e) {
   currentLayer.resetStyle(e.target) 
   info.update();
 }
@@ -47,7 +48,7 @@ function onEachFeature(feature, layer) {
     mouseover: highlightFeature,
     mouseout: resetHighlight,
   });
-}
+}*/
 
 // SUBWATERSHEDS LAYER
 var subwatersheds = L.geoJson(null, {
@@ -61,8 +62,22 @@ var subwatersheds = L.geoJson(null, {
       clickable: true
     };
   },
-  onEachFeature: onEachFeature
+  onEachFeature: onEachFeaturesheds
 });
+
+function resetHighlightsheds(e) {
+  subwatersheds.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeaturesheds(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightsheds,
+  });
+}
+
 $.getJSON("../geodata/chittenden_subwatersheds.topojson", function(data) {
   var subwatershedsgeojson = topojson.feature(data, data.objects.chittenden_subwatersheds).features;
   subwatersheds.addData(subwatershedsgeojson);
@@ -80,8 +95,22 @@ var parks = L.geoJson(null, {
       clickable: true
     };
   },
-  onEachFeature: onEachFeature
+  onEachFeature: onEachFeatureparks
 });
+
+function resetHighlightparks(e) {
+  parks.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeatureparks(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightparks,
+  });
+}
+
 $.getJSON("../geodata/btv_parks.topojson", function(data) {
   var parksgeojson = topojson.feature(data, data.objects.btv_parks).features;
   parks.addData(parksgeojson);
@@ -99,8 +128,22 @@ var wetlands = L.geoJson(null, {
       clickable: true
     };
   },
-  onEachFeature: onEachFeature
+  onEachFeature: onEachFeaturewet
 });
+
+function resetHighlightwet(e) {
+  wetlands.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeaturewet(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightwet,
+  });
+}
+
 $.getJSON("../geodata/chittenden_vswi_wetlands.topojson", function(data) {
   var wetlandsgeojson = topojson.feature(data, data.objects.chittenden_vswi_wetlands).features;
   wetlands.addData(wetlandsgeojson);
@@ -135,8 +178,22 @@ var precipitation = L.geoJson(null, {
       clickable: true
     };
   },
-  onEachFeature: onEachFeature
+  onEachFeature: onEachFeatureprecip
 });
+
+function resetHighlightprecip(e) {
+  precipitation.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeatureprecip(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightprecip,
+  });
+}
+
 $.getJSON("../geodata/chittenden_30yr_mean_precip_in.topojson", function(data) {
   var precipgeojson = topojson.feature(data, data.objects.chittenden_precip3).features;
   precipitation.addData(precipgeojson);
@@ -165,6 +222,7 @@ $.getJSON("../geodata/btv_community_gardens.topojson", function(data) {
 // ADD LAYER CONTROLLER
 var ui = document.getElementById('layerControls');
 addLayer(subwatersheds, 'Subwatersheds', 1);
+addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 1);
 addLayer(wetlands, 'VSWI Wetlands', 2);
 addLayer(precipitation, 'Ann. Mean Precip.', 3);
 addLayer(parks, 'City Parks', 4);
