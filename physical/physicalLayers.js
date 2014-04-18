@@ -1,13 +1,29 @@
-var map = L.map('map').setView([44.434, -73.062], 10);
+var map = L.map('map').setView([44.434, -73.05], 11);
 
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
 
 // ADD LAYER CONTROLLER
 var ui = document.getElementById('layerControls');
 
-addLayer(L.mapbox.tileLayer('vanhoesenj.VTBedrock'), L.mapbox.gridLayer('vanhoesenj.VTBedrock'), 'Bedrock Geology', 1);
-addLayer(L.mapbox.tileLayer('vanhoesenj.VtSurfGeo'), L.mapbox.gridLayer('vanhoesenj.VtSurfGeo'), 'Surficial Geology', 2);
-addLayer(L.mapbox.tileLayer('landplanner.hli55fb7'), L.mapbox.gridLayer('landplanner.hli55fb7'), 'Soil Types', 3);
+addLayer(
+  L.mapbox.tileLayer('vanhoesenj.VTBedrock'), 
+  L.mapbox.gridLayer('vanhoesenj.VTBedrock'), 
+  'Bedrock Geology', 
+  1
+);
+addLayer(
+  L.mapbox.tileLayer('vanhoesenj.VtSurfGeo', {
+    attribution:'VT ANR <a href="http://www.anr.state.vt.us/dec/geo/SurfMap.htm">Surficial Geology of VT, 1970</a>'
+  }), L.mapbox.gridLayer('vanhoesenj.VtSurfGeo'), 
+  'Surficial Geology', 
+  2
+);
+addLayer(
+  L.mapbox.tileLayer('landplanner.hli55fb7'), 
+  L.mapbox.gridLayer('landplanner.hli55fb7'), 
+  'Soil Types', 
+  3
+);
 
 function addLayer(layer, gridlayer, name, zIndex) {
   layer.setZIndex(zIndex);

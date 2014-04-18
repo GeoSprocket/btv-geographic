@@ -1,4 +1,4 @@
-var map = L.map('map').setView([44.434, -73.062], 10);
+var map = L.map('map').setView([44.434, -73.05], 11);
 
 //var popup = new L.Popup({ autoPan: false });
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
