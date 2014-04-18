@@ -23,12 +23,13 @@ function addLayer(layer, gridlayer, name, zIndex) {
     e.preventDefault();
     e.stopPropagation();
     if (map.hasLayer(layer)) {
-      map.removeLayer(gridlayer);
       map.removeLayer(layer);
+      map.removeControl(gridControl);
       this.className = 'btn btn-primary btn-sm';
     } else {
       map.addLayer(layer);
       map.addLayer(gridlayer);
+      map.addControl(gridControl);
       this.className = 'active btn btn-primary btn-sm';
     }
   };
