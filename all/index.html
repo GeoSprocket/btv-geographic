@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Burlington Geographic - All Maps</title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'>
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet'>
+  <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/map-style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id='map-ui'>
+    <h2 style="padding:15px;">Explore All Layers</h2>
+
+    <div class="btn-group-vertical" id='layerControls'>
+      <p>Select a Layer:</p>
+    </div>
+
+    <div class="btn-group" id='locationControls'>
+      <p>Zoom to:</p>
+        <a class='btn btn-info btn-xs' href='#' id="burlington">Burlington</a> 
+        <a class='btn btn-info btn-xs' href='#' id="chittenden">Chittenden</a>
+    </div>
+
+    <div class="btn-group" id='baseControls'>
+      <p>Basemap:</p>
+        <a class='btn btn-success btn-xs' href='#' id="streets"><i class='fa fa-road'></i> Streets</a> 
+        <a class='btn btn-success btn-xs' href='#' id="satellite"><i class="fa fa-globe"></i> Satellite</a>
+    </div>
+    <div class="btn-group-vertical">
+      <a class='btn btn-default btn-xs' target="_blank" href="https://github.com/GeoSprocket/btv-geographic/tree/master/geodata"><i class='fa fa-download'></i> Download Source Data</a>
+    </div>
+  </div>
+
+  <div id='map'></div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src="allLayers.js"></script>
+</body>
+</html>
