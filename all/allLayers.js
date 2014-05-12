@@ -3,26 +3,28 @@ var map = L.map('map').setView([44.487, -73.226], 13);
 //var popup = new L.Popup({ autoPan: false });
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
 
-////////////////////////////////////////////////////////////////////////
-//////////////////////    NATURAL LAYERS   /////////////////////////////
-////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////// 
-
 // control that shows state info on hover
-var info1 = L.control({position: 'bottomleft'});
+var info = L.control({position: 'bottomleft'});
 
-info1.onAdd = function (map) {
-  this._div = L.DomUtil.create('div', 'info1');
+info.onAdd = function (map) {
+  this._div = L.DomUtil.create('div', 'info');
   this.update();
   return this._div;
 };
 
 // Reusable as long as everything has a "name" field
-info1.update = function (props) {
+info.update = function (props) {
   this._div.innerHTML = (props ? '<h1 style="font-size:1.2em">' + props.name + '</h1>' : '' );
 };
 
-info1.addTo(map);
+info.addTo(map);
+
+
+////////////////////////////////////////////////////////////////////////
+//////////////////////    NATURAL LAYERS   /////////////////////////////
+////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////// 
+
 
 // SUBWATERSHEDS LAYER
 var subwatersheds = L.geoJson(null, {
@@ -41,7 +43,7 @@ var subwatersheds = L.geoJson(null, {
 
 function resetHighlightsheds(e) {
   subwatersheds.resetStyle(e.target) 
-  info1.update();
+  info.update();
 }
 
 // Behavior for vector layers
@@ -74,7 +76,7 @@ var parks = L.geoJson(null, {
 
 function resetHighlightparks(e) {
   parks.resetStyle(e.target) 
-  info1.update();
+  info.update();
 }
 
 // Behavior for vector layers
@@ -107,7 +109,7 @@ var wetlands = L.geoJson(null, {
 
 function resetHighlightwet(e) {
   wetlands.resetStyle(e.target) 
-  info1.update();
+  info.update();
 }
 
 // Behavior for vector layers
@@ -157,7 +159,7 @@ var precipitation = L.geoJson(null, {
 
 function resetHighlightprecip(e) {
   precipitation.resetStyle(e.target) 
-  info1.update();
+  info.update();
 }
 
 // Behavior for vector layers
@@ -199,22 +201,6 @@ $.getJSON("../geodata/btv_community_gardens.topojson", function(data) {
 ////////////////////////////////////////////////////////////////////////
 
 // CENSUS LAYERS
-
-// control that shows state info on hover
-var info2 = L.control({position: 'bottomleft'});
-
-info2.onAdd = function (map) {
-  this._div = L.DomUtil.create('div', 'info2');
-  this.update();
-  return this._div;
-};
-
-info2.update = function (props) {
-  this._div.innerHTML = (props ? '<h2>' + props.name + '</h2><p>Population Density: <b>' + parseInt(Math.round(props.popdens)).toLocaleString() + ' people/sqm</b><br># of Households: <b>' + props.housing + '</b></p>' : '' );
-};
-
-info2.addTo(map);
-
 
 // get color depending on population density value
 function getColor1(d) {
@@ -269,7 +255,7 @@ function highlightFeature(e) {
     layer.bringToFront();
   }
 
-  info2.update(layer.feature.properties);
+  info.update(layer.feature.properties);
 }
 
 var popdensity;
@@ -277,12 +263,12 @@ var housing;
 
 function resetHighlight1(e) {
   popdensity.resetStyle(e.target) 
-  info2.update();
+  info.update();
 }
 
 function resetHighlight2(e) {
   housing.resetStyle(e.target)
-  info2.update();
+  info.update();
 }
 
 function onEachFeature1(feature, layer) {
@@ -372,7 +358,7 @@ function addLayer(layer, name, zIndex) {
   // and off.
   var link = document.createElement('a');
   link.href = '#';
-  link.className = 'btn btn-default btn-sm';
+  link.className = 'btn btn-default btn-xs';
   link.type = 'button';
   link.innerHTML = name;
   link.onclick = function(e) {
@@ -380,10 +366,10 @@ function addLayer(layer, name, zIndex) {
     e.stopPropagation();
     if (map.hasLayer(layer)) {
       map.removeLayer(layer);
-      this.className = 'btn btn-default btn-sm';
+      this.className = 'btn btn-default btn-xs';
     } else {
       map.addLayer(layer);
-      this.className = 'active btn btn-primary btn-sm';
+      this.className = 'active btn btn-primary btn-xs';
     }
   };
   ui.appendChild(link);
