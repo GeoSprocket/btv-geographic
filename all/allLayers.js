@@ -470,7 +470,7 @@ addLayer(city, 'City Boundary', 1);
 addLayer(county, 'Chittenden County Towns', 2);
 addLayer(bedrock, 'Bedrock Geology', 4);
 addLayer(surfgeo, 'Surficial Geology', 5);
-//addLayer(soils, 'Soil Type', 6);
+addLayer(soils, 'Soil Type', 6);
 addLayer(subwatersheds, 'Subwatersheds', 7);
 addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 8);
 addLayer(wetlands, 'VSWI Wetlands', 9);
