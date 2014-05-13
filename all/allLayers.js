@@ -14,12 +14,12 @@ info.onAdd = function (map) {
 
 // Reusable as long as everything has a "name" field
 info.update = function (props) {
-  this._div.innerHTML = (props ? '<h1 style="font-size:1.2em">' + props.name + '</h1>' : '' );
+  this._div.innerHTML = (props ? props.tooltip : '' );
 };
 
 info.addTo(map);
 
-
+$("table").attr( "class", "table table-striped table-condensed" );
 ////////////////////////////////////////////////////////////////////////
 //////////////////////    NATURAL LAYERS   /////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,7 @@ function onEachFeatureprecip(feature, layer) {
 }
 
 $.getJSON("../geodata/chittenden_30yr_mean_precip_in.topojson", function(data) {
-  var precipgeojson = topojson.feature(data, data.objects.chittenden_precip3).features;
+  var precipgeojson = topojson.feature(data, data.objects.chittenden_precip).features;
   precipitation.addData(precipgeojson);
 });
 
@@ -245,7 +245,7 @@ function highlightFeature(e) {
   var layer = e.target;
 
   layer.setStyle({
-    weight: 5,
+    weight: 3,
     color: '#333',
     opacity: 0.8,
     fillOpacity: 0.3
@@ -338,19 +338,148 @@ $.getJSON("../geodata/chittenden_towns.topojson", function(data) {
   county.addData(countygeojson);
 });
 
+// SURFICIAL GEOLOGY LAYER
+function getColorSurfgeo(d) {
+  return d == 1 ? '#a6cee3' : 
+        d == 2 ? '#1f78b4' : 
+        d == 3 ? '#b2df8a' : 
+        d == 4 ? '#33a02c' : 
+        d == 5 ? '#fb9a99' : 
+        d == 6 ? '#e31a1c' :
+        d == 7 ? '#fdbf6f' : 
+        '#ff7f00';
+}
+
+var surfgeo = L.geoJson(null, {
+  style: function(feature) {
+    return {
+      color: "#333333",
+      fillColor: getColorSurfgeo(feature.properties.id),
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.6,
+      clickable: true
+    };
+  },
+  onEachFeature: onEachFeaturesurfgeo
+});
+
+function resetHighlightsurfgeo(e) {
+  surfgeo.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeaturesurfgeo(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightsurfgeo,
+  });
+}
+
+$.getJSON("../geodata/chittenden_surficial_geology.topojson", function(data) {
+  var surfgeogeojson = topojson.feature(data, data.objects.chittenden_surfgeo).features;
+  surfgeo.addData(surfgeogeojson);
+});
+
+// BEDROCK GEOLOGY LAYER
+function getColorbedrock(d) {
+  return d == 1 ? '#fbb4ae' : 
+        d == 2 ? '#b3cde3' : 
+        d == 3 ? '#ccebc5' : 
+        d == 4 ? '#decbe4' : 
+        d == 5 ? '#fed9a6' : 
+        d == 6 ? '#ffffcc' :
+        '#e5d8bd';
+}
+
+var bedrock = L.geoJson(null, {
+  style: function(feature) {
+    return {
+      color: "#333333",
+      fillColor: getColorbedrock(feature.properties.subcategor),
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.6,
+      clickable: true
+    };
+  },
+  onEachFeature: onEachFeaturebedrock
+});
+
+function resetHighlightbedrock(e) {
+  bedrock.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeaturebedrock(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightbedrock,
+  });
+}
+
+$.getJSON("../geodata/chittenden_bedrock.topojson", function(data) {
+  var bedrockgeojson = topojson.feature(data, data.objects.chittenden_bedrock).features;
+  bedrock.addData(bedrockgeojson);
+});
+
+// SOILS LAYER
+function getColorsoils(d) {
+  return d == 'C' ? '#66c2a5' : 
+        d == 'U' ? '#fc8d62' : 
+        '#8da0cb';
+}
+
+var soils = L.geoJson(null, {
+  style: function(feature) {
+    return {
+      color: "#333333",
+      fillColor: getColorsoils(feature.properties.category),
+      weight: 0,
+      opacity: 0,
+      fillOpacity: 0.6,
+      clickable: true
+    };
+  },
+  onEachFeature: onEachFeaturesoils
+});
+
+function resetHighlightsoils(e) {
+  soils.resetStyle(e.target) 
+  info.update();
+}
+
+// Behavior for vector layers
+function onEachFeaturesoils(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlightsoils,
+  });
+}
+
+$.getJSON("../geodata/chittenden_soils.topojson", function(data) {
+  var soilsgeojson = topojson.feature(data, data.objects.chittenden_soils).features;
+  soils.addData(soilsgeojson);
+});
+
 // ADD LAYER CONTROLLER
 var ui = document.getElementById('layerControls');
 addLayer(city, 'City Boundary', 1);
 addLayer(county, 'Chittenden County Towns', 2);
-addLayer(subwatersheds, 'Subwatersheds', 3);
-addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 4);
-addLayer(wetlands, 'VSWI Wetlands', 5);
-addLayer(precipitation, 'Ann. Mean Precip.', 6);
-addLayer(popdensity, 'Population Density, 2010', 7);
-addLayer(housing, 'Households, 2010', 8);
-addLayer(parks, 'City Parks', 9);
-addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 10);
-addLayer(gardens, 'Community Gardens', 11);
+addLayer(bedrock, 'Bedrock Geology', 4);
+addLayer(surfgeo, 'Surficial Geology', 5);
+//addLayer(soils, 'Soil Type', 6);
+addLayer(subwatersheds, 'Subwatersheds', 7);
+addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 8);
+addLayer(wetlands, 'VSWI Wetlands', 9);
+addLayer(precipitation, 'Ann. Mean Precip.', 10);
+addLayer(popdensity, 'Population Density, 2010', 11);
+addLayer(housing, 'Households, 2010', 12);
+addLayer(parks, 'City Parks', 13);
+addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 14);
+addLayer(gardens, 'Community Gardens', 15);
 
 function addLayer(layer, name, zIndex) {
   layer.setZIndex(zIndex);
