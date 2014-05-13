@@ -426,7 +426,7 @@ $.getJSON("../geodata/chittenden_bedrock.topojson", function(data) {
 });
 
 // SOILS LAYER
-function getColorsoils(d) {
+/*function getColorsoils(d) {
   return d == 'C' ? '#66c2a5' : 
         d == 'U' ? '#fc8d62' : 
         '#8da0cb';
@@ -437,8 +437,8 @@ var soils = L.geoJson(null, {
     return {
       color: "#333333",
       fillColor: getColorsoils(feature.properties.category),
-      weight: 0,
-      opacity: 0,
+      weight: 0.5,
+      opacity: 1,
       fillOpacity: 0.6,
       clickable: true
     };
@@ -462,7 +462,7 @@ function onEachFeaturesoils(feature, layer) {
 $.getJSON("../geodata/chittenden_soils.topojson", function(data) {
   var soilsgeojson = topojson.feature(data, data.objects.chittenden_soils).features;
   soils.addData(soilsgeojson);
-});
+});*/
 
 // ADD LAYER CONTROLLER
 var ui = document.getElementById('layerControls');
@@ -470,7 +470,8 @@ addLayer(city, 'City Boundary', 1);
 addLayer(county, 'Chittenden County Towns', 2);
 addLayer(bedrock, 'Bedrock Geology', 4);
 addLayer(surfgeo, 'Surficial Geology', 5);
-addLayer(soils, 'Soil Type', 6);
+//addLayer(soils, 'Soil Type', 6);
+addLayer(L.mapbox.tileLayer('landplanner.hli55fb7'), 'Soil Types', 6);
 addLayer(subwatersheds, 'Subwatersheds', 7);
 addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 8);
 addLayer(wetlands, 'VSWI Wetlands', 9);
@@ -505,12 +506,12 @@ function addLayer(layer, name, zIndex) {
 };
 
 // ADD THE REFERENCE OVERLAY
-/*var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
 var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
   maxZoom: 18
 }).addTo(map);
 topPane.appendChild(topLayer.getContainer());
-topLayer.setZIndex(7);*/
+topLayer.setZIndex(7);
 
 // SET LOCATION BOOKMARKS
 document.getElementById('burlington').onclick = function() {
@@ -531,21 +532,21 @@ document.getElementById('chittenden').onclick = function() {
 //SWITCH BASEMAPS
 document.getElementById('streets').onclick = function() {
   map.removeLayer(baseLayer);
-  //map.removeLayer(topLayer);
+  map.removeLayer(topLayer);
   baseLayer = L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
-  /*topLayer = L.mapbox.tileLayer('landplanner.hl60jemk', {
+  topLayer = L.mapbox.tileLayer('landplanner.hl60jemk', {
     maxZoom: 18
   }).addTo(map);
   topPane.appendChild(topLayer.getContainer());
-  topLayer.setZIndex(7);*/
+  topLayer.setZIndex(7);
 };
 document.getElementById('satellite').onclick = function() {
   map.removeLayer(baseLayer);
-  //map.removeLayer(topLayer);
+  map.removeLayer(topLayer);
   baseLayer = L.mapbox.tileLayer('landplanner.h1dknok1').addTo(map);
-  /*topLayer = L.mapbox.tileLayer('landplanner.map-6ycmi90w', {
+  topLayer = L.mapbox.tileLayer('landplanner.map-6ycmi90w', {
     maxZoom: 18
   }).addTo(map);
   topPane.appendChild(topLayer.getContainer());
-  topLayer.setZIndex(7);*/
+  topLayer.setZIndex(7);
 };
