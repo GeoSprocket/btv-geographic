@@ -56,7 +56,7 @@ function onEachFeaturesheds(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_subwatersheds.topojson", function(data) {
+$.getJSON("../geodata/chittenden_subwatersheds.topojson", function(data) {
   var subwatershedsgeojson = topojson.feature(data, data.objects.chittenden_subwatersheds).features;
   subwatersheds.addData(subwatershedsgeojson);
 });
@@ -89,7 +89,7 @@ function onEachFeatureparks(feature, layer) {
   });
 }
 
-$.getJSON("geodata/btv_parks.topojson", function(data) {
+$.getJSON("../geodata/btv_parks.topojson", function(data) {
   var parksgeojson = topojson.feature(data, data.objects.btv_parks).features;
   parks.addData(parksgeojson);
 });
@@ -122,7 +122,7 @@ function onEachFeaturewet(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_vswi_wetlands.topojson", function(data) {
+$.getJSON("../geodata/chittenden_vswi_wetlands.topojson", function(data) {
   var wetlandsgeojson = topojson.feature(data, data.objects.chittenden_vswi_wetlands).features;
   wetlands.addData(wetlandsgeojson);
 });
@@ -172,7 +172,7 @@ function onEachFeatureprecip(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_30yr_mean_precip_in.topojson", function(data) {
+$.getJSON("../geodata/chittenden_30yr_mean_precip_in.topojson", function(data) {
   var precipgeojson = topojson.feature(data, data.objects.chittenden_precip).features;
   precipitation.addData(precipgeojson);
 });
@@ -192,7 +192,7 @@ var gardens = L.geoJson(null, {
     layer.bindPopup("<h1>" + feature.properties.name + "</h1><p>" + feature.properties.description + "</p>");
   }
 });
-$.getJSON("geodata/btv_community_gardens.topojson", function(data) {
+$.getJSON("../geodata/btv_community_gardens.topojson", function(data) {
   var gardensgeojson = topojson.feature(data, data.objects.collection).features;
   gardens.addData(gardensgeojson);
 });
@@ -297,7 +297,7 @@ housing = L.geoJson(null, {
   onEachFeature: onEachFeature2
 });
 
-$.getJSON("geodata/btv_census_blocks_2010.topojson", function(data) {
+$.getJSON("../geodata/btv_census_blocks_2010.topojson", function(data) {
   var censusgeojson = topojson.feature(data, data.objects.btv_census_blocks_2010).features;
   popdensity.addData(censusgeojson);
   housing.addData(censusgeojson);
@@ -318,7 +318,7 @@ var city = L.geoJson(null, {
     };
   }
 });
-$.getJSON("geodata/burlington.topojson", function(data) {
+$.getJSON("../geodata/burlington.topojson", function(data) {
   var citygeojson = topojson.feature(data, data.objects.burlington).features;
   city.addData(citygeojson);
 });
@@ -335,7 +335,7 @@ var county = L.geoJson(null, {
     };
   }
 });
-$.getJSON("geodata/chittenden_towns.topojson", function(data) {
+$.getJSON("../geodata/chittenden_towns.topojson", function(data) {
   var countygeojson = topojson.feature(data, data.objects.chittenden_towns).features;
   county.addData(countygeojson);
 });
@@ -379,7 +379,7 @@ function onEachFeaturesurfgeo(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_surficial_geology.topojson", function(data) {
+$.getJSON("../geodata/chittenden_surficial_geology.topojson", function(data) {
   var surfgeogeojson = topojson.feature(data, data.objects.chittenden_surfgeo).features;
   surfgeo.addData(surfgeogeojson);
 });
@@ -422,7 +422,7 @@ function onEachFeaturebedrock(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_bedrock.topojson", function(data) {
+$.getJSON("../geodata/chittenden_bedrock.topojson", function(data) {
   var bedrockgeojson = topojson.feature(data, data.objects.chittenden_bedrock).features;
   bedrock.addData(bedrockgeojson);
 });
@@ -461,7 +461,7 @@ function onEachFeaturesoils(feature, layer) {
   });
 }
 
-$.getJSON("geodata/chittenden_soils.topojson", function(data) {
+$.getJSON("../geodata/chittenden_soils.topojson", function(data) {
   var soilsgeojson = topojson.feature(data, data.objects.chittenden_soils).features;
   soils.addData(soilsgeojson);
 });*/
