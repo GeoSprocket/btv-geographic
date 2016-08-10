@@ -1,4 +1,6 @@
-var map = L.map('map').setView([44.487, -73.226], 13);
+L.mapbox.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2lyb2YxaWt5MGJ3NGZrbTY4Y2x6MzdpbCJ9.Icd0ic7Rovbm58u89_AZ7A';
+
+var map = L.mapbox.map('map').setView([44.487, -73.226], 13);
 
 //var popup = new L.Popup({ autoPan: false });
 var baseLayer = new L.mapbox.tileLayer('landplanner.hl6099hm').addTo(map);
