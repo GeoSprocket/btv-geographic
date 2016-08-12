@@ -467,7 +467,7 @@ $.getJSON("geodata/chittenden_soils.topojson", function(data) {
 });*/
 
 // ADD LAYER CONTROLLER
-var ui = document.getElementById('layerControls');
+
 addLayer(city, 'City Boundary', 1, social);
 addLayer(county, 'Chittenden County Towns', 2, social);
 addLayer(bedrock, 'Bedrock Geology', 4, natural);
@@ -485,6 +485,10 @@ addLayer(L.mapbox.tileLayer('landplanner.hm1kg9l2'), 'Building Footprints', 14, 
 addLayer(gardens, 'Community Gardens', 15, social);
 
 function addLayer(layer, name, zIndex, category) {
+  var controllerType = category + 'Layers'
+  console.log(controllerType)
+  var ui = document.getElementById(controllerType);
+  console.log(ui);
   layer.setZIndex(zIndex);
   var link = document.createElement('a');
   link.href = '#';

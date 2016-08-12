@@ -14,23 +14,75 @@
 
 <body>
   <div id='map-ui'>
-    <!--<h2 style="padding:15px;">Explore All Layers</h2>-->
-
-    <div class="btn-group-vertical" id='layerControls'>
-      <!--<h4>Select a Layer:</h4>-->
+    <p style="padding:15px;">Themes:</p>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingSocial">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSocial" aria-expanded="true" aria-controls="collapseSocial">
+              Social
+            </a>
+          </h4>
+        </div>
+        <div id="collapseSocial" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSocial">
+          <div class="panel-body">
+            <div class="btn-group-vertical" id='socialLayers'>
+              <!--<h4>Select a Layer:</h4>-->
+            </div>          
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingNatural">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNatural" aria-expanded="true" aria-controls="collapseNatural">
+              Natural
+            </a>
+          </h4>
+        </div>
+        <div id="collapseNatural" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNatural">
+          <div class="panel-body">
+            <div class="btn-group-vertical" id='naturalLayers'>
+              <!--<h4>Select a Layer:</h4>-->
+            </div>          
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingHistorical">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseHistorical" aria-expanded="true" aria-controls="collapseHistorical">
+              Historical
+            </a>
+          </h4>
+        </div>
+        <div id="collapseHistorical" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingHistorical">
+          <div class="panel-body">
+            <div class="btn-group-vertical" id='historicalLayers'>
+              <!--<h4>Select a Layer:</h4>-->
+            </div>          
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingBase">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBase" aria-expanded="true" aria-controls="collapseBase">
+              Basemap
+            </a>
+          </h4>
+        </div>
+        <div id="collapseBase" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBase">
+          <div class="panel-body">
+            <div class="btn-group" id='baseControls'>
+              <a class='btn btn-success btn-xs' href='#' id="streets"><i class='fa fa-road'></i> Streets</a> 
+              <a class='btn btn-success btn-xs' href='#' id="satellite"><i class="fa fa-globe"></i> Satellite</a>
+            </div>          
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="btn-group" id='locationControls'>
-      <p>Zoom to:</p>
-        <a class='btn btn-info btn-xs' href='#' id="burlington">Burlington</a> 
-        <a class='btn btn-info btn-xs' href='#' id="chittenden">Chittenden</a>
-    </div>
-
-    <div class="btn-group" id='baseControls'>
-      <p>Basemap:</p>
-        <a class='btn btn-success btn-xs' href='#' id="streets"><i class='fa fa-road'></i> Streets</a> 
-        <a class='btn btn-success btn-xs' href='#' id="satellite"><i class="fa fa-globe"></i> Satellite</a>
-    </div>
     <div class="btn-group-vertical">
       <a class='btn btn-default btn-xs' target="_blank" href="https://github.com/GeoSprocket/btv-geographic/tree/master/geodata"><i class='fa fa-download'></i> Download Source Data</a>
     </div>
