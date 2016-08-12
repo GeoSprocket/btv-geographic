@@ -467,7 +467,6 @@ $.getJSON("geodata/chittenden_soils.topojson", function(data) {
 });*/
 
 // ADD LAYER CONTROLLER
-
 addLayer(city, 'City Boundary', 1, social);
 addLayer(county, 'Chittenden County Towns', 2, social);
 addLayer(bedrock, 'Bedrock Geology', 4, natural);
@@ -495,7 +494,6 @@ function addLayer(layer, name, zIndex, category) {
   link.className = 'btn btn-default btn-xs';
   link.type = 'button';
   link.innerHTML = name;
-  // TODO make sure this works right
   link.onclick = function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -517,22 +515,6 @@ var topLayer = new L.mapbox.tileLayer('landplanner.hl60jemk', {
 }).addTo(map);
 topPane.appendChild(topLayer.getContainer());
 topLayer.setZIndex(7);
-
-// SET LOCATION BOOKMARKS
-document.getElementById('burlington').onclick = function() {
-  map.setView({
-    lat: 44.487,
-    lon: -73.226
-  }, 13);
-  return false;
-};
-document.getElementById('chittenden').onclick = function() {
-  map.setView({
-    lat: 44.434,
-    lon: -73.052
-  }, 10);
-  return false;
-};
 
 //SWITCH BASEMAPS
 document.getElementById('streets').onclick = function() {
