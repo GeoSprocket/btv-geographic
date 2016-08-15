@@ -17,21 +17,54 @@
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <div class="container">
+  <div class="container" id='bigBlock'>
     <div class="jumbotron">
       <h1>Burlington Geographic</h1>
-      <p class="lead">Data downloads - get GeoJSON and KML</p>
-    </div>
-      
-    <div class="row marketing">
-      <div class="col-lg-6">
-        <h4>Subheading</h4>
-        <div class="btn-group" role="group" aria-label="...">
-          <button type="button" class="btn btn-default">Left</button>
-          <button type="button" class="btn btn-default">Middle</button>
-        </div>
-      </div>
+      <p class="lead">Data downloads - get GeoJSON, KML & Imagery</p>
+      <a class="btn btn-primary" href="../">Back to map</a>
     </div>
   </div>
+  <hr>
+  <script>
+    $.getJSON('../js/layerConfig.json', function(data) {
+      for (var i = 0; i < data.length; i++) {
+        console.log(data[i].name)
+        var block = document.getElementById('bigBlock')
+        var row = document.createElement('div')
+        row.className = 'row marketing'
+        var col = document.createElement('div')
+        col.className = 'col-md-3 col-md-offset-3'
+        row.appendChild(col)
+        var title = document.createElement('h4')
+        var titleContent = document.createTextNode(data[i].name)
+        title.appendChild(titleContent)
+        col.appendChild(title)
+        var group = document.createElement('div')
+        group.className = 'btn-group'
+        col.appendChild(group)
+        if (data[i].type == 'historical') {
+          var btn1 = document.createElement('a')
+          btn1.className = 'btn btn-info'
+          btn1.text = 'Tiled Imagery'
+          btn1.setAttribute("href", data[i].filename);
+          group.appendChild(btn1)
+        } else {
+          var btn1 = document.createElement('a')
+          btn1.className = 'btn btn-info'
+          btn1.text = 'GeoJSON'
+          btn1.setAttribute("href", '../geodata/' + data[i].filename + '.geojson');
+          btn1.setAttribute('download', data[i].filename + '.geojson')
+          group.appendChild(btn1)
+          var btn2 = document.createElement('a')
+          btn2.className = 'btn btn-info'
+          btn2.text = 'KML'
+          btn1.setAttribute("href", '../geodata/' + data[i].filename + '.kml');
+          btn1.setAttribute('download', data[i].filename + '.kml')
+          group.appendChild(btn2)
+        }
+        block.appendChild(row)
+      }      
+    })
+  </script>
 </body>
 </html>
