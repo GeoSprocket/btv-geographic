@@ -494,11 +494,11 @@ addLayer(L.tileLayer('http://mapwarper.net/layers/tile/409/{z}/{x}/{y}.png'), '1
 function addLayer(layer, name, zIndex, category) {
   var controllerType = category + 'Layers'
   var ui = document.getElementById(controllerType);
-  console.log(controllerType)
   layer.setZIndex(zIndex);
-  var link = document.createElement('a');
+  var link = document.createElement('button');
   link.href = '#';
-  link.className = 'btn btn-default btn-xs';
+  link.className = 'btn btn-default btn-xs btn-block';
+  link.setAttribute("type", "button")
   link.type = 'button';
   link.innerHTML = name;
   link.onclick = function(e) {
@@ -506,10 +506,10 @@ function addLayer(layer, name, zIndex, category) {
     e.stopPropagation();
     if (map.hasLayer(layer)) {
       map.removeLayer(layer);
-      this.className = 'btn btn-default btn-xs';
+      this.className = 'btn btn-default btn-xs btn-block';
     } else {
       map.addLayer(layer);
-      this.className = 'active btn btn-primary btn-xs';
+      this.className = 'active btn btn-default btn-xs btn-block';
     }
   };
   ui.appendChild(link);
