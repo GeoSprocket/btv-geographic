@@ -3,7 +3,10 @@ L.mapbox.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2lyb2YxaWt5MGJ3NGZrb
 var map = L.mapbox.map('map').setView([44.487, -73.226], 13);
 
 //var popup = new L.Popup({ autoPan: false });
-var baseLayer = new L.tileLayer('https://api.mapbox.com/styles/v1/landplanner/cirskramx0009g3nh6sgcvzaw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg').addTo(map);
+var streetsBase = 'https://api.mapbox.com/styles/v1/landplanner/cirvbac9j000zg6m8uol41ae1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
+var streetsRef = 'https://api.mapbox.com/styles/v1/landplanner/cirvbh1p20013g8nrqykpfwog/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
+
+var baseLayer = L.tileLayer(streetsBase).addTo(map);
 
 // control that shows state info on hover
 var info = L.control({position: 'bottomleft'});
@@ -485,6 +488,7 @@ addLayer(gardens, 'Community Gardens', 15, 'social');
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/586/{z}/{x}/{y}.png'), '1810 - "A correct map of Burlington from actual survey." Made by W. Colt', 16, 'historical')
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/572/{z}/{x}/{y}.png'), '1830 - Plan of Burlington Village Drawn by A.B. Young', 17, 'historical')
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/576/{z}/{x}/{y}.png'), '1890 - Map of the City of Burlington by G.M. Hopkins', 18, 'historical')
+addLayer(L.tileLayer('http://mapwarper.net/layers/tile/409/{z}/{x}/{y}.png'), '1937 - Aerial photography of Burlington, VT by Sanborn Co.', 19, 'historical')
 
 function addLayer(layer, name, zIndex, category) {
   var controllerType = category + 'Layers'
@@ -512,7 +516,7 @@ function addLayer(layer, name, zIndex, category) {
 
 // ADD THE REFERENCE OVERLAY
 var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-var topLayer = new L.tileLayer('https://api.mapbox.com/styles/v1/landplanner/cirskywce0009g6m8zn43u474/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg', {
+var topLayer = new L.tileLayer(streetsRef, {
   maxZoom: 18
 }).addTo(map);
 topPane.appendChild(topLayer.getContainer());
@@ -522,8 +526,8 @@ topLayer.setZIndex(7);
 document.getElementById('streets').onclick = function() {
   map.removeLayer(baseLayer);
   map.removeLayer(topLayer);
-  baseLayer = L.tileLayer('https://api.mapbox.com/styles/v1/landplanner/cirskramx0009g3nh6sgcvzaw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg').addTo(map);
-  topLayer = L.tileLayer('https://api.mapbox.com/styles/v1/landplanner/cirskywce0009g6m8zn43u474/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg', {
+  baseLayer = L.tileLayer(streetsBase).addTo(map);
+  topLayer = L.tileLayer(streetsRef, {
     maxZoom: 18
   }).addTo(map);
   topPane.appendChild(topLayer.getContainer());
