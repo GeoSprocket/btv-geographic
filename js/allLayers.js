@@ -469,7 +469,7 @@ $.getJSON("geodata/chittenden_soils.topojson", function(data) {
   soils.addData(soilsgeojson);
 });*/
 
-// ADD LAYER CONTROLLER
+
 addLayer(city, 'City Boundary', 1, 'social');
 addLayer(county, 'Chittenden County Towns', 2, 'social');
 addLayer(bedrock, 'Bedrock Geology', 4, 'natural');
@@ -489,6 +489,7 @@ addLayer(L.tileLayer('http://mapwarper.net/layers/tile/586/{z}/{x}/{y}.png'), '1
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/572/{z}/{x}/{y}.png'), '1830 - Plan of Burlington Village Drawn by A.B. Young', 17, 'historical')
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/576/{z}/{x}/{y}.png'), '1890 - Map of the City of Burlington by G.M. Hopkins', 18, 'historical')
 addLayer(L.tileLayer('http://mapwarper.net/layers/tile/409/{z}/{x}/{y}.png'), '1937 - Aerial photography of Burlington, VT by Sanborn Co.', 19, 'historical')
+
 
 function addLayer(layer, name, zIndex, category) {
   var controllerType = category + 'Layers'
@@ -514,6 +515,35 @@ function addLayer(layer, name, zIndex, category) {
   ui.appendChild(link);
 };
 
+// TODO ADD LAYER CONTROLLER
+/*
+$.getJSON('js/layerConfig.json', function(data) {
+  for (var i = 0; i < data.length; i++) {
+    var controllerType = data[i].type + 'Layers'
+    var ui = document.getElementById(controllerType);
+    var layer = data[i].use
+    console.log(data[i])
+    layer.setZIndex(data[i].zindex);
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'btn btn-default btn-xs';
+    link.type = 'button';
+    link.innerHTML = data[i].name;
+    link.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (map.hasLayer(layer)) {
+        map.removeLayer(layer);
+        this.className = 'btn btn-default btn-xs';
+      } else {
+        map.addLayer(layer);
+        this.className = 'active btn btn-primary btn-xs';
+      }
+    };
+    ui.appendChild(link);
+  }
+})
+*/
 // ADD THE REFERENCE OVERLAY
 var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
 var topLayer = new L.tileLayer(streetsRef, {
