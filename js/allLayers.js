@@ -3,8 +3,10 @@ L.mapbox.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2lyb2YxaWt5MGJ3NGZrb
 var map = L.mapbox.map('map').setView([44.487, -73.226], 13);
 
 //var popup = new L.Popup({ autoPan: false });
-var streetsBase = 'https://api.mapbox.com/styles/v1/landplanner/cirvbac9j000zg6m8uol41ae1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
-var streetsRef = 'https://api.mapbox.com/styles/v1/landplanner/cirvbh1p20013g8nrqykpfwog/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
+var streetsBase = 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png'
+var streetsRef = 'http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png'
+//var streetsBase = 'https://api.mapbox.com/styles/v1/landplanner/cirvbac9j000zg6m8uol41ae1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
+//var streetsRef = 'https://api.mapbox.com/styles/v1/landplanner/cirvbh1p20013g8nrqykpfwog/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg'
 
 var baseLayer = L.tileLayer(streetsBase).addTo(map);
 
