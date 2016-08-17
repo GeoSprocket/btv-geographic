@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Burlington Geographic - Soil Types</title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'>
+  <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/map-style.css" rel="stylesheet">
+  <meta property="og:site_name" content="Burlington Geographic"/>
+  <meta property="og:title" content="Map"/>
+  <meta property="og:description" content="Soil Types "/>
+  <meta property="og:image" content="preview.png">
+  <style>
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
+      #content {
+        position:absolute;
+        left:0;
+        right:0;
+        min-height:50px;
+        bottom:0;
+        background:RGBA(255,255,255, 0.9);
+        border-top: 2px solid #333;
+      }
+        .sidecontainer {
+        padding:20px;
+      }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <div id='content'>
+    <div class="sidecontainer">
+      <div class="row">
+        <div class="col-md-10"><h2>Soil types: Winooski river delta</h2></div>
+      </div>    
+    </div>
+  </div>
+  <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+  <script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2lyb2YxaWt5MGJ3NGZrbTY4Y2x6MzdpbCJ9.Icd0ic7Rovbm58u89_AZ7A';
+    var streetsBase = 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png'
+    var streetsRef = 'http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png'
+    var map = L.mapbox.map('map').setView([44.53510758, -73.2757186], 14);
+    var baseLayer = L.tileLayer(streetsBase).addTo(map);
+    
+    var soilsLayer = L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-soils/{z}/{x}/{y}.png').addTo(map);
+    
+    var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+    var topLayer = new L.tileLayer(streetsRef, {
+      maxZoom: 18
+    }).addTo(map);
+    topPane.appendChild(topLayer.getContainer());
+    topLayer.setZIndex(7);
+  </script>
+</body>
+</html>
