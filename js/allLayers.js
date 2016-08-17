@@ -476,7 +476,7 @@ addLayer(city, 'City Boundary', 1, 'social');
 addLayer(county, 'Chittenden County Towns', 2, 'social');
 addLayer(bedrock, 'Bedrock Geology', 4, 'natural');
 addLayer(surfgeo, 'Surficial Geology', 5, 'natural');
-addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btv-geographic/tiles/{z}/{x}/{y}.png'), 'Soil Types', 6, 'natural');
+addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-geographic/{z}/{x}/{y}.png'), 'Soil Types', 6, 'natural');
 addLayer(subwatersheds, 'Subwatersheds', 7, 'natural');
 addLayer(L.tileLayer('https://s3.amazonaws.com/geosprocket/btvgeographic/{z}/{x}/{y}.png'), 'Elevation Contours', 8, 'natural');
 addLayer(wetlands, 'VSWI Wetlands', 9, 'natural');

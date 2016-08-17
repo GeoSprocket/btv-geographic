@@ -28,7 +28,7 @@
    "filename": "chittenden_surficial_geology"
  },
  {
-   "use": "L.tileLayer('https://s3.amazonaws.com/geosprocket/btv-geographic/tiles/{z}/{x}/{y}.png')",
+   "use": "L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-geographic/{z}/{x}/{y}.png')",
    "name": "Soil Types",
    "zindex": 6,
    "type": "natural",
