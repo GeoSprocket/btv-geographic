@@ -44,15 +44,16 @@
   <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
   <script>
     L.mapbox.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2lyb2YxaWt5MGJ3NGZrbTY4Y2x6MzdpbCJ9.Icd0ic7Rovbm58u89_AZ7A';
-    var streetsBase = 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png'
-    var streetsRef = 'http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png'
-    var map = L.mapbox.map('map').setView([44.53510758, -73.2757186], 14);
-    var baseLayer = L.tileLayer(streetsBase).addTo(map);
+    let streetsBase = 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png'
+    let streetsRef = 'http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png'
+    let attribution = 'Soils data by NRCS, reference data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
+    let map = L.mapbox.map('map').setView([44.53510758, -73.2757186], 14);
+    let baseLayer = L.tileLayer(streetsBase, { attribution: attribution}).addTo(map);
     
-    var soilsLayer = L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-soils/{z}/{x}/{y}.png').addTo(map);
+    let soilsLayer = L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-soils/{z}/{x}/{y}.png').addTo(map);
     
-    var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-    var topLayer = new L.tileLayer(streetsRef, {
+    let topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+    let topLayer = new L.tileLayer(streetsRef, {
       maxZoom: 18
     }).addTo(map);
     topPane.appendChild(topLayer.getContainer());
