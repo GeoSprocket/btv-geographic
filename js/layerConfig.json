@@ -28,7 +28,7 @@
    "filename": "chittenden_surficial_geology"
  },
  {
-   "use": "L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-geographic/{z}/{x}/{y}.png')",
+   "use": "L.tileLayer('https://s3.amazonaws.com/geosprocket/tiles/btv-soils/{z}/{x}/{y}.png')",
    "name": "Soil Types",
    "zindex": 6,
    "type": "natural",
@@ -57,7 +57,7 @@
  },
  {
    "use": "precipitation",
-   "name": "Ann. Mean Precip.",
+   "name": "Annual Mean Precipitation",
    "zindex": 10,
    "type": "natural",
    "filename": "chittenden_30yr_mean_precip_in"
