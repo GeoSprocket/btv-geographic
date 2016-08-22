@@ -468,6 +468,7 @@ function addLayer(layer, name, zIndex, category) {
     if (map.hasLayer(layer)) {
       map.removeLayer(layer);
       this.className = 'btn btn-default btn-xs btn-block';
+      // TODO fix the multi-layer weirdness here
       if (category == 'historical') {
         map.removeLayer(topLayer);
         topLayer = L.tileLayer(streetsRef, {
