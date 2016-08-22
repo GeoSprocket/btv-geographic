@@ -432,46 +432,6 @@ $.getJSON("geodata/chittenden_bedrock.topojson", function(data) {
   bedrock.addData(bedrockgeojson);
 });
 
-// SOILS LAYER
-/*function getColorsoils(d) {
-  return d == 'C' ? '#66c2a5' : 
-        d == 'U' ? '#fc8d62' : 
-        '#8da0cb';
-}
-
-var soils = L.geoJson(null, {
-  style: function(feature) {
-    return {
-      color: "#333333",
-      fillColor: getColorsoils(feature.properties.category),
-      weight: 0.5,
-      opacity: 1,
-      fillOpacity: 0.6,
-      clickable: true
-    };
-  },
-  onEachFeature: onEachFeaturesoils
-});
-
-function resetHighlightsoils(e) {
-  soils.resetStyle(e.target) 
-  info.update();
-}
-
-// Behavior for vector layers
-function onEachFeaturesoils(feature, layer) {
-  layer.on({
-    mouseover: highlightFeature,
-    mouseout: resetHighlightsoils,
-  });
-}
-
-$.getJSON("geodata/chittenden_soils.topojson", function(data) {
-  var soilsgeojson = topojson.feature(data, data.objects.chittenden_soils).features;
-  soils.addData(soilsgeojson);
-});*/
-
-
 addLayer(city, 'City Boundary', 1, 'social');
 addLayer(county, 'Chittenden County Towns', 2, 'social');
 addLayer(bedrock, 'Bedrock Geology', 4, 'natural');
