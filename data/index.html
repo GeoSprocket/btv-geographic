@@ -58,8 +58,8 @@
           var btn2 = document.createElement('a')
           btn2.className = 'btn btn-info'
           btn2.text = 'KML'
-          btn1.setAttribute("href", '../geodata/' + data[i].filename + '.kml');
-          btn1.setAttribute('download', data[i].filename + '.kml')
+          btn2.setAttribute("href", '../geodata/' + data[i].filename + '.kml');
+          btn2.setAttribute('download', data[i].filename + '.kml')
           group.appendChild(btn2)
         }
         block.appendChild(row)
