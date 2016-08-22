@@ -468,9 +468,20 @@ function addLayer(layer, name, zIndex, category) {
     if (map.hasLayer(layer)) {
       map.removeLayer(layer);
       this.className = 'btn btn-default btn-xs btn-block';
+      if (category == 'historical') {
+        map.removeLayer(topLayer);
+        topLayer = L.tileLayer(streetsRef, {
+          maxZoom: 18
+        }).addTo(map);
+        topPane.appendChild(topLayer.getContainer());
+        topLayer.setZIndex(7);
+      }
     } else {
       map.addLayer(layer);
       this.className = 'active btn btn-default btn-xs btn-block';
+      if (category == 'historical') {
+        map.removeLayer(topLayer);
+      }
     }
   };
   ui.appendChild(link);
